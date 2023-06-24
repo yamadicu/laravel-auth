@@ -10,12 +10,17 @@ use App\Models\Project;
 class ProjectController extends Controller
 {
     public function index(){
-        $projects = Project::all();
-        return view('pages.index', compact('projects'));
+        $project = Project::all();
+        return view('pages.index', compact('project'));
     }
 
-    public function show(){
-        $singoloProject = Project::all($id);
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Comic  $comic
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Project $project){
         return view('pages.show', compact('project'));
     }
 }

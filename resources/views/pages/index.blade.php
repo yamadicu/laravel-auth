@@ -8,12 +8,14 @@
     <h1>Pagina Iniziale</h1>
 
     <div class="row">
-    @foreach ($projects as $elem)
+    @foreach ($project as $elem)
 
         <div class="card m-4 col-2">
             <img class="card-img-top" src="holder.js/100x180/" alt="Title">
             <div class="card-body">
-                <h4 class="card-title">{{$elem->title}}</h4>
+                <a href="{{url('pages/show', $elem)}}">
+                    <h4>{{$elem->title}}</h4>
+                </a>
                 <p class="card-text">progetto numero: {{$elem->id}}</p>
                 <p class="card-text">{{$elem->content}}</p>
             </div>
