@@ -14,6 +14,11 @@ class Project extends Model
     protected $fillable= [
         "title",
         "content",
+        "cover_image",
         "slug",
     ];
+
+    public static function generateSlug($title){
+        return Str::slug($titlr, '-');
+    }
 }
