@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
 
 use App\Models\Project;
 
@@ -29,29 +31,19 @@ class ProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProjectRequest $request)
     {
-        $request->validate(
-            [
-                'title'=> 'required|unique:project|max:255'
-            ],[
-                'title.required'=> 'il campo titolo è obbligatorio',
-                'title.unique'=> 'il campo title è già esistente',
-                'title.max'=> 'il campo non deve superare i 255 caratteri'
-            ]
-            );
+        $form_data = $request->validated();
 
-            $form_data = $request->all();
+        $slug = Project::generateSlug($request->title);
 
-            $slug = Project::generateSlug($request->title);
+        $form_data['slug'] = $slug;
 
-            $form_data['slug'] = $slug;
+        $new_project = new Project();
+        $new_project->fill($form_data);
+        $new_project->save();
 
-            $new_project = new Project();
-            $new_project->fill($form_data);
-            $new_project->save();
-
-            return redirect()->route('pages.index'); 
+        return redirect()->route('pages.index'); 
     }
 
     /**
@@ -82,18 +74,9 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $Project
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update(UpdateProjectRequest $request, Project $project)
     {
-        $request->validate(
-            [
-                'title'=> 'required|unique:project|max:255'
-            ],[
-                'title.required'=> 'il campo titolo è obbligatorio',
-                'title.max'=> 'il campo non deve superare i 255 caratteri'
-            ]
-            );
-
-            $form_data = $request->all();
+        $form_data = $request->validated();
 
             $slug = Project::generateSlug($request->title);
 

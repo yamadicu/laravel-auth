@@ -7,9 +7,19 @@
 @section('content')
     <h1>Modifica il tuo probetto</h1>
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach($errors->all() as $elem)
+                <li>{{$elem}}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    
     <div class="container">
 
-        <form action="{{route('pages.index', $project)}}" method="POST">
+        <form action="{{route('pages.update', $project)}}" method="POST">
             @csrf
             @method('PUT')
             <div class="mb-3">
